@@ -15,6 +15,7 @@ class Patient(models.Model):
 
 
 class TestResults(models.Model):
+    patient=models.ForeignKey(Patient, on_delete=models.CASCADE)
     testname = models.CharField(max_length=30)
     testvalue = models.IntegerField()
     date = models.DateField()

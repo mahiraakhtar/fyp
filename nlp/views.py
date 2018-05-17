@@ -18,7 +18,7 @@ from django.shortcuts import render
 from .forms import TextForm
 
 class IndexView(generic.ListView):
-	
+	model=umls
 	template_name = 'nlp/diseaseindex.html'
 	context_object_name='object_list'
 	def get_queryset(self):

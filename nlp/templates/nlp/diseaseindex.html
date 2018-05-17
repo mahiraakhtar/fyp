@@ -1,7 +1,7 @@
 {% block body %}
 
 	<ul>
-		{% for album in object_list %}
+		{% for umls in object_list %}
 			<li><a href="{%url 'nlp:diseasedetail' umls.id%}">{{umls.Diseasename}} </a> </li>
 		{% endfor %}
 	</ul>

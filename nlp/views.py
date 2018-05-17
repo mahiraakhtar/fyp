@@ -13,12 +13,26 @@ from string import punctuation
 from .models import umls
 from nltk.tag import StanfordNERTagger
 from nltk.tokenize import word_tokenize
+from django.views import generic
+from django.shortcuts import render
+from .forms import TextForm
+
+class IndexView(generic.ListView):
+	
+	template_name = 'nlp/diseaseindex.html'
+	context_object_name='object_list'
+	def get_queryset(self):
+		return umls.objects.all()
+
+class DetailView(generic.DetailView):
+	model=umls
+	template_name='nlp/diseasedetail.html'
 # Create your views here.
  
-def index(request):
-	return HttpResponse("<h1>NLP ")
+
 
 def insertdatabase(self):
+
 	os.chdir('C:/Users/MAHIRA/Desktop/fyp')
 	file = open('diabetes.txt', 'r') 
 	mesh=open('diseases mesh.txt', 'r')
@@ -27,7 +41,7 @@ def insertdatabase(self):
 	meshcodes=[]
 	oneworddis=[]
 	# f= open("disonly.txt","w+")
-    
+
 	while line:
 		line = mesh.readline()
 		splitline=line.split(";")
@@ -56,9 +70,15 @@ def createumls(dis,c):
 stop_words= set(stopwords.words("english"))
 ps=PorterStemmer()
 lemmatizer =WordNetLemmatizer()
-sentence_re = r'(?:(?:[A-Z])(?:.[A-Z])+.?)|(?:\w+(?:-\w+)*)|(?:\$?\d+(?:.\d+)?%?)|(?:...|)(?:[][.,;"\'?():-_`])'
 
-def info_ext(text):
+def get_text(request):
+	form=TextForm()
+	return render(request, 'nlp/text_input.html',{'form':form})
+
+
+
+
+def info_ext(request):
 # 	words=(word_tokenize(text))
 	# 
 
@@ -66,6 +86,15 @@ def info_ext(text):
 	# 	stemmed.append()
 
 	# lemmatized=[]
+	form=TextForm(request.POST)
+	if form.is_valid():
+		text=form.cleaned_data['text']
+		
+
+	# args={'form':form, 'text':text}
+	# return render(request, 'nlp/text_input.html',{'form':form})
+	
+	sentence_re = r'(?:(?:[A-Z])(?:.[A-Z])+.?)|(?:\w+(?:-\w+)*)|(?:\$?\d+(?:.\d+)?%?)|(?:...|)(?:[][.,;"\'?():-_`])'
 
 	grammar = r"""
 	NBAR:
@@ -77,7 +106,7 @@ def info_ext(text):
 	"""
 
 	toks = nltk.regexp_tokenize(text, sentence_re)
-	filtered_toks=[w for w in tagged if not w in stop_words]
+	filtered_toks=[w for w in toks if not w in stop_words]
 	tagged = nltk.tag.pos_tag(filtered_toks)
 
 		
@@ -87,12 +116,18 @@ def info_ext(text):
 
 	terms = get_terms(chunkedtree)
 
-	for term in terms:
-		for word in term:
-			print (word),
-		print
+	# for term in terms:
+	# 	for word in term:
+	# 		print (word),
+	# 	print
 
+	context ={
+		'terms':terms,
+	}
+
+	return render(request,'nlp/text_ext.html',context)
 	
+
 def leaves(tree):
 	# """Finds NP (nounphrase) leaf nodes of a chunk tree."""
     for subtree in tree.subtrees(filter = lambda t: t.label()=='NP'):

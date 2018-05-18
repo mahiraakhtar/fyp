@@ -1,3 +1,4 @@
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render
 from django.http import HttpResponse
 import nltk

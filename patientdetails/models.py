@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Patient(models.Model):
@@ -13,6 +14,11 @@ class Patient(models.Model):
     contactno= models.IntegerField()
     emergencycontact =models.IntegerField()
 
+    def get_absolute_url(self):
+        return reverse('patientdetails:detail', kwargs={'pk':self.pk})
+
+    def __str__(self):
+        return self.mrno + ' - '+ self.first_name + ' '+ self.last_name
 
 class TestResults(models.Model):
     patient=models.ForeignKey(Patient, on_delete=models.CASCADE)

@@ -4,3 +4,9 @@ from django.http import HttpResponse
  
 def index(request):
 	return HttpResponse("<h1>PATIENT DETAILS ")
+
+def patientindex(request):
+	return render(request, 'patientdetails/patientindex.html')
+
+def aboutus(request):
+	return render(request, 'patientdetails/aboutus.html')

@@ -15,6 +15,7 @@ from nltk.tag import StanfordNERTagger
 from nltk.tokenize import word_tokenize
 from django.views import generic
 from django.shortcuts import render
+from django.shortcuts import redirect
 from .forms import TextForm
 
 class IndexView(generic.ListView):
@@ -23,6 +24,9 @@ class IndexView(generic.ListView):
 	context_object_name='object_list'
 	def get_queryset(self):
 		return umls.objects.all()
+
+def home(request):
+	return render( request, 'nlp/home.html')
 
 class DetailView(generic.DetailView):
 	model=umls

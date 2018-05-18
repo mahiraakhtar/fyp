@@ -9,5 +9,6 @@ urlpatterns = [
     path('diseases/<pk>/',views.DetailView.as_view(),name='diseasedetail'),
  	path('inputtext/',views.get_text,name='inputtext'),
     path('infoext/',views.info_ext,name='infoext'),
+    path('',views.home,name='home'),
        
 ]

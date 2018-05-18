@@ -1,5 +1,8 @@
+{% extends 'nlp/base.html' %}
+{% block body %}
 <form action="/nlp/infoext/" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>
+{% endblock %}

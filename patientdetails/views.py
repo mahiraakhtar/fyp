@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
-from django.views.generic.edit import CreateView, UpdateView
-from .models import Patient
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import Patient, TestResults
+from django.urls import reverse_lazy
 # Create your views here.
- 
-def index(request):
-	return HttpResponse("<h1>PATIENT DETAILS ")
+class IndexView(generic.ListView):
+	model=Patient
+	template_name = 'patientdetails/patientindex.html'
+	context_object_name='object_list'
+	def get_queryset(self):
+		return Patient.objects.all()
 
-def patientindex(request):
-	return render(request, 'patientdetails/patientindex.html')
 
 def aboutus(request):
 	return render(request, 'patientdetails/aboutus.html')
@@ -21,3 +23,12 @@ class DetailView(generic.DetailView):
 class patientcreate(CreateView):
 	model=Patient
 	fields=['mrno','first_name', 'last_name','age','contactno', 'emergencycontact']
+
+class patientupdate(UpdateView):
+	model=Patient
+	fields=['mrno','first_name', 'last_name','age','contactno', 'emergencycontact']
+
+class patientdelete(DeleteView):
+	model=Patient
+	fields=['mrno','first_name', 'last_name','age','contactno', 'emergencycontact']
+	success_url=reverse_lazy('patientdetails:patientindex')

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
 
+    'user',
     'patientdetails.apps.PatientdetailsConfig',
     'nlp.apps.NlpConfig',
     'django.contrib.admin',
@@ -128,3 +129,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+LOGIN_REDIRECT_URL = '/'

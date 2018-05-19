@@ -21,7 +21,7 @@
                             <h4>{{ patient.mrno }}</h4>
 
                             <!-- View Details -->
-                            <a href="{% url 'patientdetails:detail' patient.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
+                            <a href="{% url 'patientdetails:patientdetail' patient.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
 
                             <!-- Delete patient -->
                             <form action="{% url 'patientdetails:patientdelete' patient.id %}" method="post" style="display: inline;">

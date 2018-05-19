@@ -15,15 +15,19 @@ class Patient(models.Model):
     emergencycontact =models.IntegerField()
 
     def get_absolute_url(self):
-        return reverse('patientdetails:detail', kwargs={'pk':self.pk})
+        return reverse('patientdetails:patientdetail', kwargs={'pk':self.pk})
 
     def __str__(self):
-        return self.mrno + ' - '+ self.first_name + ' '+ self.last_name
+        return self.first_name + ' '+ self.last_name
 
 class TestResults(models.Model):
     patient=models.ForeignKey(Patient, on_delete=models.CASCADE)
+    testcode=models.IntegerField()
     testname = models.CharField(max_length=30)
-    testvalue = models.IntegerField()
+    testvalue = models.DecimalField(decimal_places=5,max_digits=10)
     date = models.DateField()
+
+    def __str__(self):
+        return self.testname
 
    

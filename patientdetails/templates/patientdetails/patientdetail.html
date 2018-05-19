@@ -1,0 +1,81 @@
+{% extends 'patientdetails/base.html' %}
+{% block title %}{{ patient }}{% endblock %}
+{% block patients_active %}active{% endblock %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid Test Results-container">
+
+    <div class="row">
+
+        <!-- Left patient Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'patientdetails:patientdetail' patient.id %}">
+                        
+                        
+                    </a>
+                    <h1>{{ patient.first_name }} <small>{{ patient.last_name }}</small></h1>
+                    <h2>{{ patient.mrno }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Test Result Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'patientdetails:patientdetail' patient.id %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'patientdetails:testcreate' patient.id %}">Add New Test Result</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Test Results</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Test Name</th>
+                            <th>Result Value</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for TestResult in patient.TestResults_set.all %}
+                            <tr>
+                                <td>{{ TestResult.date }}</td>
+                                <td>{{ TestResult.testname }}</td>
+                                <td>{{ TestResult.testvalue }}</td>
+
+                                <td>
+                                    <form action="{% url 'patientdetails:testdelete' patient.id TestResult.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="TestResult_id" value="{{ TestResult.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

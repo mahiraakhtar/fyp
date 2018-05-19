@@ -19,6 +19,7 @@ from patientdetails import views
 
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('aboutus/', views.aboutus, name='aboutus'),
     path('patientdetails/', include('patientdetails.urls')),

@@ -143,19 +143,25 @@ def normalise(word):
 	word = word.lower()
     # word = stemmer.stem_word(word) #if we consider stemmer then results comes with stemmed word, but in this case word will not match with comment
 		# ps.stem(word)
-	word = lemmatizer.lemmatize(word)
+	# word = lemmatizer.lemmatize(word)
 	return word
 
 def acceptable_word(word):
-    # """Checks conditions for acceptable word: length
-	accepted = bool(2 <= len(word) <= 40 and word.lower() )
-	return accepted
+	w=' '.join(word)
+	dis=umls.objects.filter(Diseasename__icontains=w)
+	ws='not found'
+	if dis.exists():
+		return dis
+	
+	else: 
+		return ws
+
 
 
 def get_terms(tree):
 	for leaf in leaves(tree):
 		term = [ normalise(w) for w,t in leaf ]
-		# if acceptable_word(w) ]
+		term= acceptable_word(term)
 		yield term
 
 

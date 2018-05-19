@@ -1,0 +1,10 @@
+{% extends 'nlp/base.html' %}
+{% block body %}
+{% if terms %}
+	<ul>
+		{% for term in terms %}
+		<li>{{term}}</li>
+		{% endfor  %}
+	</ul>
+{% endif %}
+{% endblock %}

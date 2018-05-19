@@ -1,0 +1,13 @@
+{% extends 'nlp/base.html' %}
+
+
+{% block body %}
+
+	<ul>
+		{% for umls in object_list %}
+			<li><a href="{%url 'nlp:diseasedetail' umls.id%}">{{umls.Diseasename}} </a> </li>
+		{% endfor %}
+	</ul>
+
+
+{% endblock %}

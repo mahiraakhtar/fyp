@@ -23,15 +23,15 @@ class patientdetail(generic.DetailView):
 
 class patientcreate(CreateView):
 	model=Patient
-	fields=['mrno','first_name', 'last_name','age','contactno', 'emergencycontact']
+	fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
 class patientupdate(UpdateView):
 	model=Patient
-	fields=['mrno','first_name', 'last_name','age','contactno', 'emergencycontact']
+	fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
 class patientdelete(DeleteView):
 	model=Patient
-	fields=['mrno','first_name', 'last_name','age','contactno', 'emergencycontact']
+	fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 	success_url=reverse_lazy('patientdetails:patientindex')
 
 # class testindex(generic.ListView):

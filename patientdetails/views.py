@@ -22,7 +22,7 @@ def patientindex(request):
 
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Patient, TestResults, symptom
+from .models import Patient, TestResults, symptom, tests
 from django.urls import reverse_lazy
 from .forms import TestForm
 from .forms import infer_form
@@ -177,5 +177,27 @@ def infer(request):
     return render(request, 'patientdetails/infer.html', {'request2':request2})
   
 
+class testindex(generic.ListView):
+    model=tests
+    template_name = 'testindex.html'
+    context_object_name='object_list'
+    def get_queryset(self):
+        return tests.objects.all()
+
+class addtest(CreateView):
+
+    model=tests
+    fields=['testcode','testname','f_max','f_min','m_max','m_min']
+    success_url=reverse_lazy('patientdetails:testindex')
+
+class updatetest(UpdateView):
+    model=tests
+    fields=['testcode','testname','f_max','f_min','m_max','m_min']
+    success_url=reverse_lazy('patientdetails:testindex')
+
+class deletetest(DeleteView):
+    model=tests
+    fields=['testcode','testname','f_max','f_min','m_max','m_min']
+    success_url=reverse_lazy('patientdetails:testindex')
 
 

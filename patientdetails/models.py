@@ -70,3 +70,14 @@ class symptom(models.Model):
     def __str__(self):
         return self.name+ ' (Common name: ' + self.common_name+ ')'
 
+class tests(models.Model):
+    testcode = models.CharField(max_length=3)
+    testname = models.CharField(max_length = 20)
+    f_max = models.DecimalField(decimal_places=2,max_digits=10)
+    m_max = models.DecimalField(decimal_places=2,max_digits=10)
+    m_min = models.DecimalField(decimal_places=2,max_digits=10)
+    f_min = models.DecimalField(decimal_places=2,max_digits=10)
+    def __str__(self):
+        return self.testname 
+
+

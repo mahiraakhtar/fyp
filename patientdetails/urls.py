@@ -9,6 +9,7 @@ urlpatterns = [
     path('patient/', views.patientindex.as_view(), name='patientindex'),
     path('patient/<pk>/', views.patientdetail.as_view(), name='patientdetail'),
     path('addpatient/', views.patientcreate.as_view(), name='patientcreate'),
+
     path('addtest/<patient_id>/', views.testcreate, name='testcreate'),
     path('inferform/', views.inferform, name='inferform'),
     path('infer/', views.infer, name='infer'),
@@ -16,5 +17,9 @@ urlpatterns = [
     path('updatepatient/<pk>/', views.patientupdate.as_view(), name='patientupdate'),
 	path('deletepatient/<pk>/', views.patientdelete.as_view(), name='patientdelete'),
 	path('insertsymplist/', views.symplist, name='insertsymplist'),
+	path('addtest/', views.addtest.as_view(), name='addtest'),
+	path('deletetest/<pk>/', views.deletetest.as_view(), name='deletetest'),
+	path('updatetest/<pk>/', views.updatetest.as_view(), name='updatetest'),
+	path('indextest/', views.testindex.as_view(), name='testindex'),
 
 ]

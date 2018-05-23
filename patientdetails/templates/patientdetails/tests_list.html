@@ -1,0 +1,57 @@
+
+{% extends 'patientdetails/base.html' %}
+{% block tests_active %}active{% endblock %}
+
+{% block body %}
+<div class="tests-container container-fluid">
+
+    <!-- patients -->
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Tests</h3>
+        </div>
+        
+            {% for test in object_list %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+
+                        </a>
+                        <div class="caption">
+
+                            <h2>{{test.testname}}</h2>
+                            <h4>Test Code: {{ test.testcode }} </h4>
+                            <h4>female range: {{ test.f_min }} - {{ test.f_max }}</h4>
+                            <h4>Male range: {{ test.m_min }} - {{ test.m_max }}</h4>
+
+                            <!-- Delete patient -->
+                            <form action="{% url 'patientdetails:deletetest' test.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="test_id" value="{{ test.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                                <a href="{% url 'patientdetails:updatetest' test.id %}">
+                                <button type="button" class="btn btn-success">
+                                    &nbsp; Update test
+                                </button>
+                                </a>
+                            </form>
+
+                            
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        
+            <div class="col-sm-12">
+                <br>
+                <a href="{% url 'patientdetails:addtest' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a test
+                    </button>
+                </a>
+            </div>
+        
+    </div>
+{% endblock %}

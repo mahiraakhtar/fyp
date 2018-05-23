@@ -4,17 +4,17 @@ from multiselectfield import MultiSelectField
 
 # Create your models here.
 class Patient(models.Model):
-    mrno = models.CharField(max_length=20)
+    mrno = models.CharField(max_length=20, unique=True)
     first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30, null=True)
     gender_choices= (
         ('F', 'Female'),
         ('M', 'Male')
     )
     gender=MultiSelectField(choices=gender_choices, null=True)
-    age= models.IntegerField()
-    contactno= models.IntegerField()
-    emergencycontact =models.IntegerField()
+    age= models.IntegerField(null=True)
+    contactno= models.CharField(max_length=30,null=True)
+    emergencycontact =models.CharField(max_length=30,null=True)
 
     def get_absolute_url(self):
         return reverse('patientdetails:patientdetail', kwargs={'pk':self.pk})
@@ -44,7 +44,8 @@ class TestResults(models.Model):
         return self.testname
 
 class PredictedModel(models.Model):
-    patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
+    patient = models.ForeignKey(Patient, to_field="mrno", db_column="mrno",on_delete = models.CASCADE)
+ 
     discode = models.CharField(max_length=10)
     disease = models.CharField(max_length = 500)
     predicted_disease = models.CharField(max_length = 500)

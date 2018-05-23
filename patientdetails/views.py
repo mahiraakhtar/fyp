@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views import generic
 
@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import HttpResponseRedirect
+
 # Create your views here.
 @login_required
 def index(request):
@@ -18,10 +20,12 @@ def patientindex(request):
 	return render(request, 'patientdetails/patientindex.html')
 
 
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Patient, TestResults
+from .models import Patient, TestResults, symptom
 from django.urls import reverse_lazy
 from .forms import TestForm
+from .forms import infer_form
 import pandas as pd
 import numpy as np
 from sklearn.metrics import accuracy_score
@@ -41,11 +45,6 @@ def index(request):
 def patientindex(request):
 	return render(request, 'patientdetails/patientindex.html')
 @login_required
-
-
-
-
-# Create your views here.
 
 
 def aboutus(request):
@@ -133,8 +132,50 @@ def Prediction(request):
 
 import infermedica_api
 api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
-#import infermedica_api
-#api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
+
+def inferform(request):
+    form=infer_form()
+    symptoms=symptom.objects.all()
+    return render(request, 'patientdetails/inferform.html',{'form':form,'symptoms':'symptom'})
+
+def symplist(request):
+    symptomslist=api.symptoms_list()
+    for symp in symptomslist:
+        sid=(symp['id'])
+        cn=(symp['common_name'])
+        name=(symp['common_name'])
+        createsymp(sid,cn,name)
+    return HttpResponse("<h1>Symptoms List inserted into Database!")   
+
+
+def createsymp(sid,cn,name):
+    d=symptom(sid=sid, common_name=cn, name=name)
+    d.save()
+
+
+def infer(request):
+    form=infer_form(request.POST)
+    if form.is_valid():
+        age2=form.cleaned_data['age']
+        sex2=form.cleaned_data['sex']
+        Symp1=form.cleaned_data['Symptom1']
+        Symp2=form.cleaned_data['Symptom2']
+        Symp3=form.cleaned_data['Symptom3']
+
+    
+    request2 = infermedica_api.Diagnosis(sex=sex2, age=age2)
+
+    request2.add_symptom(Symp1.sid, 'present')
+    request2.add_symptom(Symp2.sid, 'present')
+    request2.add_symptom(Symp3.sid, 'present')
+
+    # call diagnosis
+    request2 = api.diagnosis(request2)
+    request2=request2.conditions
+
+
+    return render(request, 'patientdetails/infer.html', {'request2':request2})
+  
 
 
 

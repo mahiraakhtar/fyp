@@ -1,1 +1,29 @@
-{{diagnosis}}
+{% extends 'patientdetails/base.html' %}
+{% block title %}Inference{% endblock %}
+
+
+{% block body %}
+<div class="container-fluid Test Results-container">
+
+    <div class="row">
+
+        <!-- Left patient Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% for x in request2 %}
+						Condition ID: {{x.id}}<br/>
+						Condition Name:{{x.name}}<br/>
+						Condition Probability{{x.probability}}<br/><br/><br/>
+
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+
+
+{% endblock %}

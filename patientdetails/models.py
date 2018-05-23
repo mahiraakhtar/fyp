@@ -62,4 +62,11 @@ class Diagnosis(models.Model):
     def __str__(self):
         return self.disease
     
+class symptom(models.Model):
+    sid = models.CharField(max_length=10)
+    name = models.CharField(max_length = 500)
+    common_name = models.CharField(max_length = 500)
+
+    def __str__(self):
+        return self.name+ ' (Common name: ' + self.common_name+ ')'
 

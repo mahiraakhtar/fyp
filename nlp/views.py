@@ -15,7 +15,7 @@ from .models import umls, diagnosis
 from nltk.tag import StanfordNERTagger
 from nltk.tokenize import word_tokenize
 from django.views import generic
-from django.shortcuts import render
+
 from django.shortcuts import redirect
 from .forms import TextForm
 

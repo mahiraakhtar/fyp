@@ -1,8 +1,15 @@
 from django import forms
 
-from .models import TestResults
+from .models import TestResults, symptom
 
 
+class infer_form(forms.Form):
+    
+    sex = forms.CharField(label='Gender')
+    age=forms.IntegerField(label='Age')
+    Symptom1=forms.ModelChoiceField(queryset=symptom.objects.all())
+    Symptom2 = Symptom1=forms.ModelChoiceField(queryset=symptom.objects.all())
+    Symptom3 = Symptom1=forms.ModelChoiceField(queryset=symptom.objects.all())
 
 class TestForm(forms.ModelForm):
 

@@ -11,13 +11,15 @@ from sklearn.feature_extraction.text import CountVectorizer
 from nltk.classify.scikitlearn import  SklearnClassifier
 import string
 from string import punctuation
-from .models import umls
+from .models import umls, diagnosis
 from nltk.tag import StanfordNERTagger
 from nltk.tokenize import word_tokenize
 from django.views import generic
 from django.shortcuts import render
 from django.shortcuts import redirect
 from .forms import TextForm
+
+
 
 class IndexView(generic.ListView):
 	model=umls
@@ -34,12 +36,42 @@ class DetailView(generic.DetailView):
 	template_name='nlp/diseasedetail.html'
 # Create your views here.
  
+def insertdiagnosis(self):
+
+	os.chdir('C:/Users/MAHIRA/Desktop/fyp')
+	 
+	mesh = open('diagnosis mesh.txt', 'r')
+	line = mesh.readline()
+	meshdiag=[]
+	meshcodes=[]
+	oneworddiag=[]
+	# f= open("disonly.txt","w+")
+
+	while line:
+		line = mesh.readline()
+		splitline=line.split(";")
+		# f.write(splitline[0]+"\n")
+		meshdiag.append(splitline[0])
+		diag=splitline[0]
+
+		singlewords=splitline[0].split(" ")
+		y=0
+		for y in range(len(singlewords)):
+			oneworddiag.append(singlewords[y])                              
+			y+=1 
+		c=""
+		if len(splitline)>1:
+			meshcodes.append(splitline[1])
+			c=splitline[1]
+		createumls(diag,c)
+	return HttpResponse("<h1>Diagnosis and Codes inserted into Database!")		
+		
 
 
 def insertdatabase(self):
 
 	os.chdir('C:/Users/MAHIRA/Desktop/fyp')
-	file = open('diabetes.txt', 'r') 
+	 
 	mesh=open('diseases mesh.txt', 'r')
 	line = mesh.readline()
 	meshdiseases=[]
@@ -71,6 +103,10 @@ def createumls(dis,c):
 	d=umls(Diseasename=dis, Code=c)
 	d.save()
 
+def creatediagnosis(diag,code):
+	d=diagnosis(Diagnosis=diag, Code=code)
+	d.save()
+
 
 stop_words= set(stopwords.words("english"))
 ps=PorterStemmer()
@@ -81,7 +117,8 @@ def get_text(request):
 	return render(request, 'nlp/text_input.html',{'form':form})
 
 
-
+def sent_tok(text):
+	sents=sent_tokenize(text)
 
 def info_ext(request):
 # 	words=(word_tokenize(text))
@@ -94,10 +131,9 @@ def info_ext(request):
 	form=TextForm(request.POST)
 	if form.is_valid():
 		text=form.cleaned_data['text']
-		
 
-	# args={'form':form, 'text':text}
-	# return render(request, 'nlp/text_input.html',{'form':form})
+
+	
 	
 	sentence_re = r'(?:(?:[A-Z])(?:.[A-Z])+.?)|(?:\w+(?:-\w+)*)|(?:\$?\d+(?:.\d+)?%?)|(?:...|)(?:[][.,;"\'?():-_`])'
 

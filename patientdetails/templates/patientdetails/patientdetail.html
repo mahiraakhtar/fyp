@@ -16,8 +16,9 @@
                         
                         
                     </a>
-                    <h1>{{ patient.first_name }} <small>{{ patient.last_name }}</small></h1>
-                    <h2>{{ patient.mrno }}</h2>
+                    <h1>{{ patient.first_name }} {{ patient.last_name }}</h1>
+                    <h2>MR no. : {{ patient.mrno }}</h2>
+                    <h4>Gender : {{patient.gender}}<br/>Age : {{patient.age}}<br/> Contact No : {{patient.contactno}}<br/>Emergency Contact : {{patient.emergencycontact}}</h4>
                 </div>
             </div>
         </div>
@@ -26,7 +27,7 @@
         <div class="col-sm-8 col-md-9">
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'patientdetails:patientdetail' patient.id %}">View All</a></li>
+                <li role="presentation" class="active"><a href="{% url 'patientdetails:patientupdate' patient.id %}">Update Patient Details</a></li>
                 <li role="presentation"><a href="{% url 'patientdetails:testcreate' patient.id %}">Add New Test Result</a></li>
             </ul>
 

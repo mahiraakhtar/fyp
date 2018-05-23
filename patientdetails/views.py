@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults
 from django.urls import reverse_lazy
 from .forms import TestForm
+import json
 # Create your views here.
 
 def aboutus(request):
@@ -83,3 +84,8 @@ def testdelete(request, patient_id, testresult_id):
     testresult = TestResults.objects.get(pk=testresult_id)
     testresult.delete()
     return render(request, 'patientdetails/patientdetail.html', {'patient': patient})
+
+import infermedica_api
+api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
+
+

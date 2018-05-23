@@ -27,16 +27,16 @@ class TestResults(models.Model):
     recno = models.CharField(max_length=20)
     date = models.DateField()
     catcode = models.CharField(max_length=20)
-    regno = models.CharField(max_length=20)
+    
     Type = models.CharField(max_length = 10)
     sno = models.IntegerField()
     testcode=models.CharField(max_length=20)
     testvalue = models.DecimalField(decimal_places=5,max_digits=10) 
     testname = models.CharField(max_length=30)
     catname = models.CharField(max_length = 50)
-    Range = models.CharField(max_length = 10)
+    Range = models.CharField(max_length = 30)
     unit = models.CharField(max_length = 10)
-    patient=models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient=models.ForeignKey(Patient, to_field="mrno", db_column="mrno", on_delete=models.CASCADE)
     sdw = models.CharField(max_length = 10)
 
 

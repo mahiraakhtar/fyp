@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 app_name='nlp'
 urlpatterns = [
-
+	path('insertdiagnosis/', views.insertdiagnosis, name='insertdiagnosis'),
     path('insert/', views.insertdatabase, name='insertdatabase'),
     path('diseases',views.IndexView.as_view(),name='diseaseindex'),
     path('diseases/<pk>/',views.DetailView.as_view(),name='diseasedetail'),

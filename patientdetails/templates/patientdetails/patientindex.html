@@ -1,5 +1,52 @@
-{% extends 'nlp/base.html' %}
-{% block body %}
 
-<h1>Patients</h1>
+{% extends 'patientdetails/base.html' %}
+{% block patients_active %}active{% endblock %}
+
+{% block body %}
+<div class="patients-container container-fluid">
+
+    <!-- patients -->
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Patients</h3>
+        </div>
+        
+            {% for patient in object_list %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+
+                        </a>
+                        <div class="caption">
+                            <h2>{{ patient.first_name }} {{patient.last_name}}</h2>
+                            <h4>{{ patient.mrno }}</h4>
+
+                            <!-- View Details -->
+                            <a href="{% url 'patientdetails:patientdetail' patient.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
+
+                            <!-- Delete patient -->
+                            <form action="{% url 'patientdetails:patientdelete' patient.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="patient_id" value="{{ patient.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+
+                            
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        
+            <div class="col-sm-12">
+                <br>
+                <a href="{% url 'patientdetails:patientcreate' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a patient
+                    </button>
+                </a>
+            </div>
+        
+    </div>
 {% endblock %}

@@ -5,6 +5,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults
 from django.urls import reverse_lazy
 from .forms import TestForm
+import pandas as pd
+import numpy as np
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 # Create your views here.
 
 def aboutus(request):
@@ -83,3 +91,9 @@ def testdelete(request, patient_id, testresult_id):
     testresult = TestResults.objects.get(pk=testresult_id)
     testresult.delete()
     return render(request, 'patientdetails/patientdetail.html', {'patient': patient})
+
+def Prediction(request):
+    testresult = TestResults.objects.all()
+    diagnosis = Diagnosis.objects.all()
+
+

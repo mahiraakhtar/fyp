@@ -1,12 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en">
+{% extends 'Registration/base.html' %}
+{% block body %}
+
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
-    {% if form.errors %}
-    <p>Theres something wrong with what you just entered!</p>
+
+{% if form.errors %}
+    <p>Your username or password is incorrect!</p>
     {% endif %}
 
     {% if next %}
@@ -25,3 +30,4 @@
 
 </body>
 </html>
+{% endblock %}

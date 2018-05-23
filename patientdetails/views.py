@@ -1,6 +1,23 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views import generic
+<<<<<<< HEAD
+from django.views.generic.edit import CreateView, UpdateView
+from .models import Patient
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
+# Create your views here.
+@login_required
+def index(request):
+	return HttpResponse("<h1>PATIENT DETAILS ")
+@login_required
+@permission_required('patientdetails.view_patient')
+def patientindex(request):
+	return render(request, 'patientdetails/patientindex.html')
+@login_required
+=======
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults
 from django.urls import reverse_lazy
@@ -18,6 +35,7 @@ from sklearn.cluster import KMeans
 import json
 # Create your views here.
 
+>>>>>>> f67368dacef3b886cfb7f958f8669c5474d2c392
 def aboutus(request):
 	return render(request, 'patientdetails/aboutus.html')
 
@@ -32,7 +50,8 @@ class patientdetail(generic.DetailView):
 	model=Patient
 	template_name='patientdetails/patientdetail.html'
 
-class patientcreate(CreateView):
+class patientcreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+	permission_required = 'patientdetails.add_patient'
 	model=Patient
 	fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 

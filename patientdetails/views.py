@@ -8,6 +8,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+# Create your views here.
+@login_required
+def index(request):
+	return HttpResponse("<h1>PATIENT DETAILS ")
+@login_required
+@permission_required('patientdetails.view_patient')
+def patientindex(request):
+	return render(request, 'patientdetails/patientindex.html')
+
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults
 from django.urls import reverse_lazy
@@ -123,6 +133,8 @@ def Prediction(request):
 
 import infermedica_api
 api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
+#import infermedica_api
+#api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
 
 
 

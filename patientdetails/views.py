@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views import generic
-<<<<<<< HEAD
+
 from django.views.generic.edit import CreateView, UpdateView
 from .models import Patient
 from django.contrib.auth.decorators import login_required
@@ -16,8 +16,8 @@ def index(request):
 @permission_required('patientdetails.view_patient')
 def patientindex(request):
 	return render(request, 'patientdetails/patientindex.html')
-@login_required
-=======
+
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults
 from django.urls import reverse_lazy
@@ -35,7 +35,7 @@ from sklearn.cluster import KMeans
 import json
 # Create your views here.
 
->>>>>>> f67368dacef3b886cfb7f958f8669c5474d2c392
+
 def aboutus(request):
 	return render(request, 'patientdetails/aboutus.html')
 
@@ -119,8 +119,8 @@ def Prediction(request):
     testresult = TestResults.objects.all()
     diagnosis = Diagnosis.objects.all()
 
-import infermedica_api
-api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
+#import infermedica_api
+#api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
 
 
 

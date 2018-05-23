@@ -27,7 +27,7 @@
         <div class="col-sm-8 col-md-9">
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'patientdetails:patientupdate' patient.id %}">Update Patient Details</a></li>
+                <li role="presentation" class="active"><a href="{% url 'patientdetails:patientupdate ' patient.id %}">Update Patient Details</a></li>
                 <li role="presentation"><a href="{% url 'patientdetails:testcreate' patient.id %}">Add New Test Result</a></li>
             </ul>
 

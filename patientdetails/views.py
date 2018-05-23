@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults
 from django.urls import reverse_lazy
 from .forms import TestForm
-<<<<<<< HEAD
+
 import pandas as pd
 import numpy as np
 from sklearn.metrics import accuracy_score
@@ -14,9 +14,8 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
-=======
+
 import json
->>>>>>> 374bacbc20dc8bc0f0cb45e0716875cc3168ef57
 # Create your views here.
 
 def aboutus(request):
@@ -96,13 +95,13 @@ def testdelete(request, patient_id, testresult_id):
     testresult.delete()
     return render(request, 'patientdetails/patientdetail.html', {'patient': patient})
 
-<<<<<<< HEAD
+
 def Prediction(request):
     testresult = TestResults.objects.all()
     diagnosis = Diagnosis.objects.all()
-=======
+
 import infermedica_api
 api = infermedica_api.API(app_id='1db218b3', app_key='55dc0c8d721d12fd115024d76e6f5dfb')
->>>>>>> 374bacbc20dc8bc0f0cb45e0716875cc3168ef57
+
 
 

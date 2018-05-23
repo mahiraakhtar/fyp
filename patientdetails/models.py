@@ -4,14 +4,14 @@ from multiselectfield import MultiSelectField
 
 # Create your models here.
 class Patient(models.Model):
-    mrno = models.IntegerField()
+    mrno = models.CharField(max_length=20)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     gender_choices= (
         ('F', 'Female'),
         ('M', 'Male')
     )
-    gender=MultiSelectField(choices=gender_choices)
+    gender=MultiSelectField(choices=gender_choices, null=True)
     age= models.IntegerField()
     contactno= models.IntegerField()
     emergencycontact =models.IntegerField()
@@ -23,14 +23,14 @@ class Patient(models.Model):
         return self.first_name + ' '+ self.last_name
 
 class TestResults(models.Model):
-    recmon = models.IntegerField()
-    recno = models.IntegerField()
+    recmon = models.CharField(max_length=20)
+    recno = models.CharField(max_length=20)
     date = models.DateField()
-    catcode = models.IntegerField
-    regno = models.IntegerField()
+    catcode = models.CharField(max_length=20)
+    regno = models.CharField(max_length=20)
     Type = models.CharField(max_length = 10)
     sno = models.IntegerField()
-    testcode=models.IntegerField()
+    testcode=models.CharField(max_length=20)
     testvalue = models.DecimalField(decimal_places=5,max_digits=10) 
     testname = models.CharField(max_length=30)
     catname = models.CharField(max_length = 50)
@@ -45,7 +45,7 @@ class TestResults(models.Model):
 
 class PredictedModel(models.Model):
     patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
-    discode = models.IntegerField()
+    discode = models.CharField(max_length=10)
     disease = models.CharField(max_length = 500)
     predicted_disease = models.CharField(max_length = 500)
 
@@ -54,7 +54,7 @@ class PredictedModel(models.Model):
         return self.disease + ' ' + self.predicted_disease
 
 class Diagnosis(models.Model):
-    discode = models.IntegerField()
+    discode = models.CharField(max_length=10)
     disease = models.CharField(max_length = 500)
     parentcode = models.CharField(max_length = 10)
 

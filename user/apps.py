@@ -11,6 +11,8 @@ def add_to_default_group(sender, **kwargs):
 
     if kwargs["created"]:
         group = Group.objects.get(name='non_staff')
+        Group.objects.get_or_create(name='assistant')
+        Group.objects.get_or_create(name='doctor')
         user.groups.add(group)
 
 def init_groups(sender, **kwargs):

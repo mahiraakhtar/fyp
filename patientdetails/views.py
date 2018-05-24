@@ -11,13 +11,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 
 # Create your views here.
-@login_required
-def index(request):
-	return HttpResponse("<h1>PATIENT DETAILS ")
-@login_required
-@permission_required('patientdetails.view_patient')
-def patientindex(request):
-	return render(request, 'patientdetails/patientindex.html')
+
 
 
 
@@ -39,41 +33,45 @@ import json
 # Create your views here.
 @login_required
 def index(request):
-	return HttpResponse("<h1>PATIENT DETAILS ")
+    return HttpResponse("<h1>PATIENT DETAILS ")
 @login_required
 @permission_required('patientdetails.view_patient')
 def patientindex(request):
-	return render(request, 'patientdetails/patientindex.html')
-@login_required
+    return render(request, 'patientdetails/patientindex.html')
+
 
 
 def aboutus(request):
-	return render(request, 'patientdetails/aboutus.html')
+    return render(request, 'patientdetails/aboutus.html')
 
-class patientindex(generic.ListView):
-	model=Patient
-	template_name = 'patientdetails/patientindex.html'
-	context_object_name='object_list'
-	def get_queryset(self):
-		return Patient.objects.all()
+class patientindex(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    permission_required = 'patientdetails.view_patient'
+    model=Patient
+    template_name = 'patientdetails/patientindex.html'
+    context_object_name='object_list'
+    def get_queryset(self):
+        return Patient.objects.all()
 
-class patientdetail(generic.DetailView):
-	model=Patient
-	template_name='patientdetails/patientdetail.html'
+class patientdetail(LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView):
+    permission_required = 'patientdetails.view_patient'
+    model=Patient
+    template_name='patientdetails/patientdetail.html'
 
 class patientcreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-	permission_required = 'patientdetails.add_patient'
-	model=Patient
-	fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
+    permission_required = 'patientdetails.add_patient'
+    model=Patient
+    fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
 class patientupdate(UpdateView):
-	model=Patient
-	fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
+    permission_required = 'patientdetails.change_patient'
+    model=Patient
+    fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
 class patientdelete(DeleteView):
-	model=Patient
-	fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
-	success_url=reverse_lazy('patientdetails:patientindex')
+    permission_required = 'patientdetails.delete_patient'
+    model=Patient
+    fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
+    success_url=reverse_lazy('patientdetails:patientindex')
 
 # class testindex(generic.ListView):
 # 	model=TestResults
@@ -115,8 +113,8 @@ def testcreate(request, patient_id):
 
 
 class testupdate(UpdateView):
-	model=TestResults
-	fields=['testcode', 'testname','testvalue','date', 'patient']
+    model=TestResults
+    fields=['testcode', 'testname','testvalue','date', 'patient']
 
 
 def testdelete(request, patient_id, testresult_id):

@@ -62,12 +62,22 @@ class patientcreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
+<<<<<<< HEAD
 class patientupdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+=======
+class patientupdate(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
+>>>>>>> 88c41b666c1f00247eee009762f8686f0d21835e
     permission_required = 'patientdetails.change_patient'
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
+    def get_success_url(self):
+        return reverse('patientdetails:patientindex')
 
+<<<<<<< HEAD
 class patientdelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+=======
+class patientdelete(LoginRequiredMixin, PermissionRequiredMixin,DeleteView):
+>>>>>>> 88c41b666c1f00247eee009762f8686f0d21835e
     permission_required = 'patientdetails.delete_patient'
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']

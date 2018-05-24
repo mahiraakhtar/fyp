@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import TestResults, symptom
+from .models import TestResults, symptom, rulesparams
 
 
 class infer_form(forms.Form):
@@ -17,4 +17,9 @@ class TestForm(forms.ModelForm):
         model = TestResults
         fields = ['testcode', 'testname','testvalue','date']
 
+class ParamForm(forms.ModelForm):
+
+    class Meta:
+        model = rulesparams
+        fields = ['testcode', 'parameter','Diagnosis']
 

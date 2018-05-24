@@ -55,7 +55,7 @@ class PredictedModel(models.Model):
         return self.disease + ' ' + self.predicted_disease
 
 class TestModel(models.Model):
-    patient = models.ForeignKey(Patient, to_field="mrno", db_column="mrno",on_delete = models.CASCADE)
+    patient = models.ForeignKey(Patient,on_delete = models.CASCADE)
  
     discode = models.CharField(max_length=10)
     disease = models.CharField(max_length = 500)
@@ -93,8 +93,9 @@ class rules(models.Model):
     def __str__(self):
         return self.id 
 
-class rules_param(models.Model):
-    test = models.ForeignKey(tests, to_field="testcode", db_column="testcode",on_delete = models.CASCADE)
+class rulesparams(models.Model):
+    rules=models.ForeignKey(rules ,on_delete = models.CASCADE, default=None)
+    testcode = models.ForeignKey(tests, to_field="testcode", db_column="testcode",on_delete = models.CASCADE)
     parameter=models.CharField(max_length = 10)
     Diagnosis= models.ForeignKey(Diagnosis, to_field="discode", db_column="discode",on_delete = models.CASCADE)
     def __str__(self):

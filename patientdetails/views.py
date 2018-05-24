@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views import generic
 
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView 
 from .models import Patient
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
@@ -11,14 +11,9 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 
 # Create your views here.
-
-
-
-
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Patient, TestResults, symptom, tests
+from .models import Patient, TestResults, symptom, tests, rules, rulesparams
 from django.urls import reverse_lazy, reverse
-from .forms import TestForm
+from .forms import TestForm, ParamForm
 from .forms import infer_form
 import pandas as pd
 import numpy as np
@@ -205,3 +200,87 @@ class deletetest(DeleteView):
     success_url=reverse_lazy('patientdetails:testindex')
 
 
+
+
+class rulesindex( generic.ListView):
+    
+    model=rules
+    template_name = 'patientdetails/rulesindex.html'
+    context_object_name='object_list'
+    def get_queryset(self):
+        return rules.objects.all()
+
+class rulesdetail(generic.DetailView):
+
+    model=rules
+    template_name='patientdetails/rulesdetail.html'
+
+class rulescreate( CreateView):
+
+    model=rules
+    fields=[]
+    success_url=reverse_lazy('patientdetails:rulesindex')
+
+class rulesupdate(UpdateView):
+
+    model=rules
+    fields=[]
+    def get_success_url(self):
+        return reverse('patientdetails:rulesindex')
+
+class rulesdelete(DeleteView):
+
+    model=rules
+    fields=[]
+    success_url=reverse_lazy('patientdetails:rulesindex')
+
+# class testindex(generic.ListView):
+#   model=TestResults
+#   template_name = 'patientdetails/testindex.html'
+#   context_object_name='object_list'
+#   def get_queryset(self):
+#       return TestResults.objects.all()
+
+# class testdetail(generic.DetailView):
+#   model=TestResults
+#   template_name='patientdetails/testdetail.html'
+
+
+def paramcreate(request, rules_id):
+    form = ParamForm(request.POST or None, request.FILES or None)
+    rule = get_object_or_404(rules, pk=rules_id)
+    if form.is_valid():
+        params = rule.rulesparams_set.all()
+        for s in params:
+            if s.params_testcode == form.cleaned_data.get("testcode") :
+                context = {
+                    'rules': rules,
+                    'form': form,
+                    'error_message': 'You already added that parameter',
+                }
+                return render(request, 'patientdetails/create_params.html', context)
+        params = form.save(commit=False)
+        ruelesparams.rules = rules
+
+
+        rulesparams.save()
+        return render(request, 'patientdetails/rulesdetail.html', {'rules': rules})
+    context = {
+        'rules': rules,
+        'form': form,
+    }
+    return render(request, 'patientdetails/create_params.html', context)
+
+
+
+
+class paramupdate(UpdateView):
+    model=rulesparams
+    fields=['testcode', 'parameter','Diagnosis']
+
+
+def testdelete(request, rules_id, param_id):
+    rules = get_object_or_404(rules, pk=rules_id)
+    param = rulesparams.objects.get(pk=param_id)
+    param.delete()
+    return render(request, 'patientdetails/rulesdetail.html', {'rules': rules})

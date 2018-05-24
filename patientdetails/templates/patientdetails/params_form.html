@@ -1,5 +1,5 @@
 {% extends 'patientdetails/base.html' %}
-{% block title %}Add a New Pule{% endblock %}
+{% block title %}Add a New Parameter{% endblock %}
 {% block patients_active %}active{% endblock %}
 
 {% block body %}
@@ -10,7 +10,7 @@
         <div class="col-sm-12 col-md-7">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Add a New Rule</h3>
+                    <h3>Add a New Parameter</h3>
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
@@ -19,7 +19,7 @@
                         {% include 'patientdetails/form_template.html' %}
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Add</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
                             </div>
                         </div>
                     </form>

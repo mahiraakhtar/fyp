@@ -1,0 +1,80 @@
+{% extends 'patientdetails/base.html' %}
+{% block title %}{{ patient }}{% endblock %}
+{% block patients_active %}active{% endblock %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid Test Results-container">
+
+    <div class="row">
+
+        <!-- Left patient Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'patientdetails:rulesdetail' rules.id %}">                      
+                        
+                    </a>
+                    <h2>Rule id:{{ rules.id }} </h2>
+       
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Test Result Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                
+                <li role="presentation"><a href="{% url 'patientdetails:paramcreate' rules.id %}">Add New Parameter</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Parameters</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Test Code</th>
+                            <th>Parameter</th>
+                            <th>Diagnosis</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for param in rules.rulesparam_set.all %}
+                            <tr>
+                                <td>{{ param.testcode }}</td>
+                                <td>{{ param.parameter }}</td>
+                                <td>{{ param.Diagnosis}}</td>
+
+                                <td>
+                                    <form action="{% url 'patientdetails:paramdelete' rule.id param.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="param_id" value="{{ param.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

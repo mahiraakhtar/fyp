@@ -18,6 +18,7 @@ from django.views import generic
 
 from django.shortcuts import redirect
 from .forms import TextForm
+from patientdetails.models import symptom
 
 
 
@@ -185,13 +186,36 @@ def normalise(word):
 def acceptable_word(word):
 	w=' '.join(word)
 	dis=umls.objects.filter(Diseasename__icontains=w)
-	ws='not found'
+	
 	if dis.exists():
 		return dis
-	
+		# accepted_dis(dis,w)
+		
 	else: 
+		ws='Noun phrase:'+w+'\n'+'not found\n\n'
 		return ws
 
+def accepted_dis(word,np):
+	for w in word:
+		w='Noun phrase:'+np+'found\n\n'+'Diseasename:'+w.Diseasename
+		return w
+
+def accepted_sym(word,np):
+	for w in word:
+		w='Noun phrase:'+np+'found\n\n'+'Symptomname:'+w.name
+		return w
+
+def acceptable_symp(word):
+	w=' '.join(word)
+	sym=symptom.objects.filter(name__icontains=w)
+	
+	if sym.exists():
+		return sym
+		# accepted_sym(sym,w)
+		
+	else: 
+		ws='Noun phrase:'+w+'\n'+'not found\n\n'
+		return ws
 
 
 def get_terms(tree):

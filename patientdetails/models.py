@@ -54,6 +54,15 @@ class PredictedModel(models.Model):
     def __str__(self):
         return self.disease + ' ' + self.predicted_disease
 
+class TestModel(models.Model):
+    patient = models.ForeignKey(Patient, to_field="mrno", db_column="mrno",on_delete = models.CASCADE)
+ 
+    discode = models.CharField(max_length=10)
+    disease = models.CharField(max_length = 500)
+    
+    def __str__(self):
+        return self.disease 
+
 class Diagnosis(models.Model):
     discode = models.CharField(max_length=10)
     disease = models.CharField(max_length = 500)
@@ -72,6 +81,16 @@ class symptom(models.Model):
 
 class tests(models.Model):
     testcode = models.CharField(max_length=3, unique=True)
+    testname = models.CharField(max_length = 20)
+    f_max = models.DecimalField(decimal_places=2,max_digits=10)
+    m_max = models.DecimalField(decimal_places=2,max_digits=10)
+    m_min = models.DecimalField(decimal_places=2,max_digits=10)
+    f_min = models.DecimalField(decimal_places=2,max_digits=10)
+    def __str__(self):
+        return self.testname 
+
+class rules(models.Model):
+    test = models.ForeignKey(tests, to_field="testcode", db_column="testcode",on_delete = models.CASCADE)
     testname = models.CharField(max_length = 20)
     f_max = models.DecimalField(decimal_places=2,max_digits=10)
     m_max = models.DecimalField(decimal_places=2,max_digits=10)

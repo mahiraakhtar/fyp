@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fypdatabase',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'mahira',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }

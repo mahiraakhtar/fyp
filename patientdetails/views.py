@@ -17,7 +17,7 @@ from django.http import HttpResponseRedirect
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults, symptom, tests
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import TestForm
 from .forms import infer_form
 import pandas as pd
@@ -62,12 +62,14 @@ class patientcreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
-class patientupdate(UpdateView):
+class patientupdate(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
     permission_required = 'patientdetails.change_patient'
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
+    def get_success_url(self):
+        return reverse('patientdetails:patientindex')
 
-class patientdelete(DeleteView):
+class patientdelete(LoginRequiredMixin, PermissionRequiredMixin,DeleteView):
     permission_required = 'patientdetails.delete_patient'
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']

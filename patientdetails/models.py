@@ -64,7 +64,7 @@ class TestModel(models.Model):
         return self.disease 
 
 class Diagnosis(models.Model):
-    discode = models.CharField(max_length=10)
+    discode = models.CharField(max_length=10, unique=True)
     disease = models.CharField(max_length = 500)
     parentcode = models.CharField(max_length = 10)
 
@@ -90,14 +90,15 @@ class tests(models.Model):
         return self.testname 
 
 class rules(models.Model):
-    test = models.ForeignKey(tests, to_field="testcode", db_column="testcode",on_delete = models.CASCADE)
-    testname = models.CharField(max_length = 20)
-    f_max = models.DecimalField(decimal_places=2,max_digits=10)
-    m_max = models.DecimalField(decimal_places=2,max_digits=10)
-    m_min = models.DecimalField(decimal_places=2,max_digits=10)
-    f_min = models.DecimalField(decimal_places=2,max_digits=10)
     def __str__(self):
-        return self.testname 
+        return self.id 
+
+class rules_param(models.Model):
+    test = models.ForeignKey(tests, to_field="testcode", db_column="testcode",on_delete = models.CASCADE)
+    parameter=models.CharField(max_length = 10)
+    Diagnosis= models.ForeignKey(Diagnosis, to_field="discode", db_column="discode",on_delete = models.CASCADE)
+    def __str__(self):
+        return self.testcode
 
 
 

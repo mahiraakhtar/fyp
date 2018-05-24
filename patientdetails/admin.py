@@ -3,4 +3,4 @@ from .models import Patient, TestResults
 
 admin.site.register(Patient)
 admin.site.register(TestResults)
-# Register your models here.
+admin.site.site_header = 'Administration'

@@ -81,3 +81,5 @@ class tests(models.Model):
         return self.testname 
 
 
+
+

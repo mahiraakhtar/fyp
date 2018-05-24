@@ -17,7 +17,7 @@ from django.http import HttpResponseRedirect
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Patient, TestResults, symptom, tests
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import TestForm
 from .forms import infer_form
 import pandas as pd
@@ -33,7 +33,7 @@ import json
 # Create your views here.
 @login_required
 def index(request):
-    return HttpResponse("<h1>PATIENT DETAILS ")
+    return HttpResponse("<h1>PATIENT DETAILS</h1> ")
 @login_required
 @permission_required('patientdetails.view_patient')
 def patientindex(request):
@@ -62,12 +62,12 @@ class patientcreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
-class patientupdate(UpdateView):
+class patientupdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'patientdetails.change_patient'
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
 
-class patientdelete(DeleteView):
+class patientdelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'patientdetails.delete_patient'
     model=Patient
     fields=['mrno','first_name', 'last_name','age','gender','contactno', 'emergencycontact']
